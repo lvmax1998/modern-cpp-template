@@ -47,12 +47,6 @@ if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
   message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run CMake from there.\n")
 endif()
 
-#
-# Enable package managers
-#
-
-include(cmake/Conan.cmake)
-include(cmake/Vcpkg.cmake)
 
 #
 # Create library, setup header and source files
@@ -285,6 +279,12 @@ configure_file(
   @ONLY
 )
 
+target_include_directories(
+  ${PROJECT_NAME}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+)
+
 install(
   FILES
   ${CMAKE_CURRENT_BINARY_DIR}/include/${PROJECT_NAME_LOWERCASE}/version.hpp
@@ -345,6 +345,12 @@ if(${PROJECT_NAME}_GENERATE_EXPORT_HEADER)
     ${PROJECT_BINARY_DIR}/${PROJECT_NAME_LOWERCASE}_export.h
     DESTINATION
     include
+  )
+
+  target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC
+      $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
   )
 
   message(STATUS "Generated the export header `${PROJECT_NAME_LOWERCASE}_export.h` and installed it.")

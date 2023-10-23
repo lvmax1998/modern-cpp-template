@@ -12,7 +12,7 @@ project(
 verbose_message("Adding tests under ${CMAKE_PROJECT_NAME}Tests...")
 
 foreach(file ${test_sources})
-  string(REGEX REPLACE "(.*/)([a-zA-Z0-9_ ]+)(\.cpp)" "\\2" test_name ${file}) 
+  string(REGEX REPLACE "(.*/)([a-zA-Z0-9_ ]+)_test(\\.cpp)" "\\2" test_name ${file})
   add_executable(${test_name}_Tests ${file})
 
   #
@@ -66,7 +66,15 @@ foreach(file ${test_sources})
         ${${CMAKE_PROJECT_NAME}_TEST_LIB}
     )
   else()
-    message(FATAL_ERROR "Unknown testing library. Please setup your desired unit testing library by using `target_link_libraries`.")  
+    message(FATAL_ERROR "Unknown testing library. Please setup your desired unit testing library by using `target_link_libraries`.")
+  endif()
+
+  if(BUILD_SHARED_LIBS AND WIN32)
+    add_custom_command(TARGET ${test_name}_Tests POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
+          $<TARGET_FILE_DIR:${test_name}_Tests>
+    )
   endif()
 
   #

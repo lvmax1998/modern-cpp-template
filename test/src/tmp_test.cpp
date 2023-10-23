@@ -10,6 +10,8 @@ TEST(TmpAddTest, CheckValues)
 
 int main(int argc, char **argv)
 {
+  constexpr int x = TESTTOOL(1, 2, 1);
+  constexpr int y = TESTTOOL(1, 2, 2);
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
