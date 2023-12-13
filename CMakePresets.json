@@ -1,0 +1,112 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "binaryDir": "build",
+            "installDir": "install/${presetName}",
+            "cacheVariables": {
+            }
+        },
+        {
+            "name": "vcpkg",
+            "hidden": true,
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        },
+        {
+            "name": "vs2022",
+            "hidden": true,
+            "inherits": [
+                "vcpkg"
+            ],
+            "generator": "Visual Studio 17 2022",
+            "toolset": "host=x64"
+        },
+        {
+            "name": "win32",
+            "inherits": [
+                "vs2022",
+                "base"
+            ],
+            "displayName": "Win32 (Visual Studio)",
+            "description": "Visual Studio-based Win32 build with vcpkg dependencies.",
+            "architecture": "Win32"
+        },
+        {
+            "name": "win64",
+            "inherits": [
+                "vs2022",
+                "base"
+            ],
+            "displayName": "Win64 (Visual Studio)",
+            "description": "Visual Studio-based x64 build with vcpkg dependencies.",
+            "architecture": "x64"
+        },
+        {
+            "name": "Debug",
+            "hidden": false,
+            "inherits": [
+                "win64"
+            ],
+            "description": "Debug configuration",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "Release",
+            "hidden": false,
+            "inherits": [
+                "win64"
+            ],
+            "description": "Release configuration",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "Debug",
+            "hidden": false,
+            "configurePreset": "Debug",
+            "configuration": "Debug",
+            "displayName": "Debug",
+            "description": "Debug build with no special settings"
+        },
+        {
+            "name": "Release",
+            "hidden": false,
+            "configurePreset": "Release",
+            "configuration": "Release",
+            "displayName": "Release",
+            "description": "Release build with no special settings"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "Debug",
+            "configurePreset": "Debug",
+            "displayName": "Debug",
+            "description": "Test everything with Debug build",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "Release",
+            "configurePreset": "Release",
+            "displayName": "Release",
+            "description": "Test everything with Release build",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}
