@@ -11,8 +11,7 @@
             "hidden": true,
             "binaryDir": "build",
             "installDir": "install/${presetName}",
-            "cacheVariables": {
-            }
+            "cacheVariables": {}
         },
         {
             "name": "vcpkg",
@@ -92,6 +91,7 @@
     "testPresets": [
         {
             "name": "Debug",
+            "configuration": "Debug",
             "configurePreset": "Debug",
             "displayName": "Debug",
             "description": "Test everything with Debug build",
@@ -101,6 +101,7 @@
         },
         {
             "name": "Release",
+            "configuration": "Release",
             "configurePreset": "Release",
             "displayName": "Release",
             "description": "Test everything with Release build",

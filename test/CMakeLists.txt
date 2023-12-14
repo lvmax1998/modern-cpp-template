@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.21)
 
 #
 # Project details
@@ -86,6 +86,12 @@ foreach(file ${test_sources})
       ${test_name}
     COMMAND
       ${test_name}_Tests
+  )
+
+  set_tests_properties(
+    ${test_name}
+    PROPERTIES
+      WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE}
   )
 endforeach()
 
