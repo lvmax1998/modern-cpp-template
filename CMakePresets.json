@@ -2,16 +2,24 @@
     "version": 3,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 21,
+        "minor": 23,
         "patch": 0
     },
     "configurePresets": [
         {
             "name": "base",
             "hidden": true,
-            "binaryDir": "build",
-            "installDir": "install/${presetName}",
-            "cacheVariables": {}
+        "binaryDir": "build/${presetName}",
+        "installDir": "install/${presetName}"
+      },
+      {
+        "name": "windows-only",
+        "hidden": true,
+        "condition": {
+          "type": "equals",
+          "lhs": "${hostSystemName}",
+          "rhs": "Windows"
+        }
         },
         {
             "name": "vcpkg",
@@ -22,11 +30,48 @@
             "name": "vs2022",
             "hidden": true,
             "inherits": [
-                "vcpkg"
+          "vcpkg",
+          "windows-only"
             ],
             "generator": "Visual Studio 17 2022",
             "toolset": "host=x64"
         },
+      {
+        "name": "debug",
+        "inherits": "base",
+        "displayName": "Debug",
+        "description": "Debug build with no special settings",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Debug"
+        }
+      },
+      {
+        "name": "release",
+        "inherits": "base",
+        "displayName": "Release",
+        "description": "Release build with no special settings",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Release"
+        }
+      },
+      {
+        "name": "debian-debug",
+        "inherits": "debug",
+        "displayName": "Debian (Debug)",
+        "description": "Debug build assuming Debian-provided dependencies",
+        "cacheVariables": {
+          "Halide_SHARED_LLVM": "ON"
+        }
+      },
+      {
+        "name": "debian-release",
+        "inherits": "debian-debug",
+        "displayName": "Debian (Release)",
+        "description": "Release build assuming Debian-provided dependencies",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Release"
+        }
+      },
         {
             "name": "win32",
             "inherits": [
@@ -72,27 +117,48 @@
     ],
     "buildPresets": [
         {
-            "name": "Debug",
-            "hidden": false,
-            "configurePreset": "Debug",
-            "configuration": "Debug",
+        "name": "debug",
+        "configurePreset": "debug",
             "displayName": "Debug",
             "description": "Debug build with no special settings"
         },
         {
-            "name": "Release",
-            "hidden": false,
-            "configurePreset": "Release",
-            "configuration": "Release",
+        "name": "release",
+        "configurePreset": "release",
             "displayName": "Release",
             "description": "Release build with no special settings"
+      },
+      {
+        "name": "linux-x64-asan",
+        "configurePreset": "linux-x64-asan",
+        "displayName": "ASAN (Linux x64)",
+        "description": "Build everything with ASAN enabled"
+      },
+      {
+        "name": "linux-x64-fuzzer",
+        "configurePreset": "linux-x64-fuzzer",
+        "displayName": "Fuzzing (Linux x64)",
+        "description": "Build everything with fuzzing enabled"
+      },
+      {
+        "name": "debug(win64)",
+        "configurePreset": "win64",
+        "displayName": "Debug(win64)",
+        "configuration": "Debug",
+        "description": "Test everything with Debug build"
+      },
+      {
+        "name": "release(win64)",
+        "configurePreset": "win64",
+        "displayName": "Release(win64)",
+        "configuration": "Release",
+        "description": "Test everything with Release build"
         }
     ],
     "testPresets": [
         {
-            "name": "Debug",
-            "configuration": "Debug",
-            "configurePreset": "Debug",
+        "name": "debug",
+        "configurePreset": "debug",
             "displayName": "Debug",
             "description": "Test everything with Debug build",
             "output": {
@@ -100,14 +166,14 @@
             }
         },
         {
-            "name": "Release",
-            "configuration": "Release",
-            "configurePreset": "Release",
+        "name": "release",
+        "configurePreset": "release",
             "displayName": "Release",
             "description": "Test everything with Release build",
             "output": {
                 "outputOnFailure": true
             }
+      },
         }
     ]
 }

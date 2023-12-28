@@ -60,7 +60,7 @@ option(${PROJECT_NAME}_ENABLE_DOXYGEN "Enable Doxygen documentation builds of so
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(${PROJECT_NAME}_VERBOSE_OUTPUT "Enable verbose output, allowing for a better understanding of each step taken." ON)
-option(${PROJECT_NAME}_GENERATE_EXPORT_HEADER "Create a `project_export.h` file containing all exported symbols." OFF)
+option(${PROJECT_NAME}_GENERATE_EXPORT_HEADER "Create a `project_export.h` file containing all exported symbols." ON)
 
 # Export all symbols when building a shared library
 if(BUILD_SHARED_LIBS)
@@ -94,3 +94,15 @@ if(${PROJECT_NAME}_ENABLE_ASAN)
     add_compile_options(-fsanitize=address)
     add_link_options(-fsanitize=address)
 endif()
+
+#####################################
+# Cpack Settings
+#####################################
+set(CPACK_GENERATOR "ZIP")
+
+# version information
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+
+include(CPack)
