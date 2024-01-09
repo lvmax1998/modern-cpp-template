@@ -9,17 +9,17 @@
         {
             "name": "base",
             "hidden": true,
-        "binaryDir": "build/${presetName}",
-        "installDir": "install/${presetName}"
-      },
-      {
-        "name": "windows-only",
-        "hidden": true,
-        "condition": {
-          "type": "equals",
-          "lhs": "${hostSystemName}",
-          "rhs": "Windows"
-        }
+            "binaryDir": "build/${presetName}",
+            "installDir": "install/${presetName}"
+        },
+        {
+            "name": "windows-only",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
         },
         {
             "name": "vcpkg",
@@ -30,57 +30,45 @@
             "name": "vs2022",
             "hidden": true,
             "inherits": [
-          "vcpkg",
-          "windows-only"
+                "vcpkg",
+                "windows-only"
             ],
             "generator": "Visual Studio 17 2022",
             "toolset": "host=x64"
         },
-      {
-        "name": "debug",
-        "inherits": "base",
-        "displayName": "Debug",
-        "description": "Debug build with no special settings",
-        "cacheVariables": {
-          "CMAKE_BUILD_TYPE": "Debug"
-        }
-      },
-      {
-        "name": "release",
-        "inherits": "base",
-        "displayName": "Release",
-        "description": "Release build with no special settings",
-        "cacheVariables": {
-          "CMAKE_BUILD_TYPE": "Release"
-        }
-      },
-      {
-        "name": "debian-debug",
-        "inherits": "debug",
-        "displayName": "Debian (Debug)",
-        "description": "Debug build assuming Debian-provided dependencies",
-        "cacheVariables": {
-          "Halide_SHARED_LLVM": "ON"
-        }
-      },
-      {
-        "name": "debian-release",
-        "inherits": "debian-debug",
-        "displayName": "Debian (Release)",
-        "description": "Release build assuming Debian-provided dependencies",
-        "cacheVariables": {
-          "CMAKE_BUILD_TYPE": "Release"
-        }
-      },
         {
-            "name": "win32",
-            "inherits": [
-                "vs2022",
-                "base"
-            ],
-            "displayName": "Win32 (Visual Studio)",
-            "description": "Visual Studio-based Win32 build with vcpkg dependencies.",
-            "architecture": "Win32"
+            "name": "debug",
+            "inherits": "base",
+            "displayName": "Debug",
+            "description": "Debug build with no special settings",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release",
+            "inherits": "base",
+            "displayName": "Release",
+            "description": "Release build with no special settings",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "debian-debug",
+            "inherits": "debug",
+            "displayName": "Debian (Debug)",
+            "description": "Debug build assuming Debian-provided dependencies",
+            "cacheVariables": {}
+        },
+        {
+            "name": "debian-release",
+            "inherits": "debian-debug",
+            "displayName": "Debian (Release)",
+            "description": "Release build assuming Debian-provided dependencies",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
         },
         {
             "name": "win64",
@@ -88,77 +76,115 @@
                 "vs2022",
                 "base"
             ],
+            "hidden": true,
             "displayName": "Win64 (Visual Studio)",
-            "description": "Visual Studio-based x64 build with vcpkg dependencies.",
-            "architecture": "x64"
+            "description": "Visual Studio-based x64 build with vcpkg dependencies."
         },
         {
-            "name": "Debug",
-            "hidden": false,
+            "name": "win64-debug",
             "inherits": [
-                "win64"
+                "win64",
+                "debug"
             ],
-            "description": "Debug configuration",
+            "displayName": "Win64 (Debug)",
+            "binaryDir": "build/win64",
+            "description": "Visual Studio-based x64 build with vcpkg dependencies."
+        },
+        {
+            "name": "win64-release",
+            "inherits": [
+                "win64",
+                "release"
+            ],
+            "displayName": "Win64 (Release)",
+            "binaryDir": "build/win64",
+            "description": "Visual Studio-based x64 build with vcpkg dependencies."
+        },
+        {
+            "name": "package",
+            "hidden": true,
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
-            "name": "Release",
-            "hidden": false,
+            "name": "package-win64",
             "inherits": [
-                "win64"
+                "package",
+                "vs2022"
             ],
-            "description": "Release configuration",
+            "displayName": "Package ZIP for Windows",
+            "description": "Build for packaging Windows shared libraries.",
+            "binaryDir": "build/win64",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "BUILD_SHARED_LIBS": "YES"
+            }
+        },
+        {
+            "name": "package-unix-shared",
+            "inherits": "package",
+            "displayName": "Package UNIX shared libs",
+            "description": "Build for packaging UNIX shared libraries.",
+            "binaryDir": "shared-Release",
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": "YES"
+            }
+        },
+        {
+            "name": "package-unix-static",
+            "inherits": "package",
+            "displayName": "Package UNIX static libs",
+            "description": "Build for packaging UNIX static libraries.",
+            "binaryDir": "static-Release",
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": "NO"
             }
         }
     ],
     "buildPresets": [
         {
-        "name": "debug",
-        "configurePreset": "debug",
+            "name": "debug",
+            "configurePreset": "debug",
             "displayName": "Debug",
+            "configuration": "Debug",
             "description": "Debug build with no special settings"
         },
         {
-        "name": "release",
-        "configurePreset": "release",
+            "name": "release",
+            "configurePreset": "release",
             "displayName": "Release",
+            "configuration": "Release",
             "description": "Release build with no special settings"
-      },
-      {
-        "name": "linux-x64-asan",
-        "configurePreset": "linux-x64-asan",
-        "displayName": "ASAN (Linux x64)",
-        "description": "Build everything with ASAN enabled"
-      },
-      {
-        "name": "linux-x64-fuzzer",
-        "configurePreset": "linux-x64-fuzzer",
-        "displayName": "Fuzzing (Linux x64)",
-        "description": "Build everything with fuzzing enabled"
-      },
-      {
-        "name": "debug(win64)",
-        "configurePreset": "win64",
-        "displayName": "Debug(win64)",
-        "configuration": "Debug",
-        "description": "Test everything with Debug build"
-      },
-      {
-        "name": "release(win64)",
-        "configurePreset": "win64",
-        "displayName": "Release(win64)",
-        "configuration": "Release",
-        "description": "Test everything with Release build"
+        },
+        {
+            "name": "debug-win64",
+            "inherits": "debug",
+            "configurePreset": "win64-debug",
+            "displayName": "Debug-win64",
+            "description": "Test everything with Debug build"
+        },
+        {
+            "name": "release-win64",
+            "inherits": "release",
+            "configurePreset": "win64-release",
+            "displayName": "Release-win64",
+            "description": "Test everything with Release build"
+        },
+        {
+            "name": "package-win64",
+            "configurePreset": "package-win64",
+            "displayName": "package-win64",
+            "configuration": "Release",
+            "description": "Test everything with Release build",
+            "targets": [
+                "package"
+            ]
         }
     ],
     "testPresets": [
         {
-        "name": "debug",
-        "configurePreset": "debug",
+            "name": "debug",
+            "configurePreset": "debug",
             "displayName": "Debug",
             "description": "Test everything with Debug build",
             "output": {
@@ -166,14 +192,13 @@
             }
         },
         {
-        "name": "release",
-        "configurePreset": "release",
+            "name": "release",
+            "configurePreset": "release",
             "displayName": "Release",
             "description": "Test everything with Release build",
             "output": {
                 "outputOnFailure": true
             }
-      },
         }
     ]
 }
