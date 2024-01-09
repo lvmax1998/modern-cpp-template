@@ -15,6 +15,10 @@ set(test_sources
   src/tmp_test.cpp
 )
 
+set(benchmark_sources
+  src/tmp_benchmark.cpp
+)
+
 source_group("Header Files" FILES ${headers})
 source_group("Source Files" FILES ${sources})
 source_group("Test Files" FILES ${test_sources})

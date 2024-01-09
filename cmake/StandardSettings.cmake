@@ -33,6 +33,13 @@ option(${PROJECT_NAME}_USE_GOOGLE_MOCK "Use the GoogleMock project for extending
 option(${PROJECT_NAME}_USE_CATCH2 "Use the Catch2 project for creating unit tests." OFF)
 
 #
+# Benchmarking
+#
+# Currently supporting: Google Benchmark.
+
+option(${PROJECT_NAME}_ENABLE_BENCHMARKING "Enable benchmarking for the projects (from the `benchmark` subfolder)." OFF)
+
+#
 # Static analyzers
 #
 # Currently supporting: Clang-Tidy, Cppcheck.
