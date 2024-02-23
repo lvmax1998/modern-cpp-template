@@ -1,22 +1,26 @@
 cmake_minimum_required(VERSION 3.23)
 
 #
-# Project details
-#
-
-project(
-  "Project"
-  VERSION 0.1.0
-  LANGUAGES CXX
-)
-
-#
 # Set project options
 #
+
+set(PROJECT_NAME "Project")
+set(PROJECT_VERSION "0.1.0")
 
 include(cmake/StandardSettings.cmake)
 include(cmake/StaticAnalyzers.cmake)
 include(cmake/Utils.cmake)
+
+#
+# Project details
+#
+
+project(
+  ${PROJECT_NAME}
+  VERSION ${PROJECT_VERSION}
+  LANGUAGES CXX
+)
+
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug")
 endif()

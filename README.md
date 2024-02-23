@@ -50,7 +50,12 @@ template is licensed under the [Unlicense](https://unlicense.org/),
 * Options to build as a header-only library or executable, not just a static or
 shared library.
 
-* **Ccache** integration, for speeding up rebuild times
+* **Ccache** integration, for speeding up rebuild times.
+
+* **Vcpkg** support, for easy package management. The template is setup to use it's
+manifest mode. It also supports fea
+
+* **CMakePresets** support, for easy configuration of the project.
 
 ## Getting Started
 

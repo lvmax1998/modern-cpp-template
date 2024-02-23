@@ -2,10 +2,19 @@
     "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
     "name": "project",
     "version": "0.1.0",
-    "dependencies": [
-        {
-            "name": "gtest",
-            "default-features": true
+    "dependencies": [],
+    "features": {
+        "tests": {
+            "description": "Enable tests",
+            "dependencies": [
+                "gtest"
+            ]
+        },
+        "benchmarks": {
+            "description": "Enable benchmark",
+            "dependencies": [
+                "benchmark"
+            ]
         }
-    ]
+    }
 }
