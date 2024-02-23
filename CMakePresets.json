@@ -22,6 +22,15 @@
             }
         },
         {
+            "name": "linux-only",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
             "name": "vcpkg",
             "hidden": true,
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
@@ -38,6 +47,7 @@
         },
         {
             "name": "debug",
+            "hidden": true,
             "inherits": "base",
             "displayName": "Debug",
             "description": "Debug build with no special settings",
@@ -47,6 +57,7 @@
         },
         {
             "name": "release",
+            "hidden": true,
             "inherits": "base",
             "displayName": "Release",
             "description": "Release build with no special settings",
@@ -55,9 +66,26 @@
             }
         },
         {
+            "name": "gcc",
+            "hidden": true,
+            "inherits": [
+                "vcpkg",
+                "linux-only"
+            ],
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_MAKE_PROGRAM": "make"
+            },
+            "toolset": "host=x64"
+        },
+        {
             "name": "debian-debug",
-            "inherits": "debug",
+            "inherits": [
+                "gcc",
+                "debug"
+            ],
             "displayName": "Debian (Debug)",
+            "binaryDir": "build/debian",
             "description": "Debug build assuming Debian-provided dependencies",
             "cacheVariables": {}
         },
@@ -122,7 +150,11 @@
         },
         {
             "name": "package-unix-shared",
-            "inherits": "package",
+            "hidden": true,
+            "inherits": [
+                "package",
+                "gcc"
+            ],
             "displayName": "Package UNIX shared libs",
             "description": "Build for packaging UNIX shared libraries.",
             "binaryDir": "shared-Release",
@@ -132,7 +164,11 @@
         },
         {
             "name": "package-unix-static",
-            "inherits": "package",
+            "hidden": true,
+            "inherits": [
+                "package",
+                "gcc"
+            ],
             "displayName": "Package UNIX static libs",
             "description": "Build for packaging UNIX static libraries.",
             "binaryDir": "static-Release",
