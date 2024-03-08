@@ -73,6 +73,9 @@ option(${PROJECT_NAME}_ENABLE_DOXYGEN "Enable Doxygen documentation builds of so
 # Generate compile_commands.json for clang based tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Set the default debug postfix
+set(CMAKE_DEBUG_POSTFIX "_d")
+
 option(${PROJECT_NAME}_VERBOSE_OUTPUT "Enable verbose output, allowing for a better understanding of each step taken." ON)
 
 # Export all symbols when building a shared library
