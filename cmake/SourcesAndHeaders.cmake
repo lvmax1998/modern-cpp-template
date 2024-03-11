@@ -22,6 +22,7 @@ set(benchmark_sources
 source_group("Header Files" FILES ${headers})
 source_group("Source Files" FILES ${sources})
 source_group("Test Files" FILES ${test_sources})
+source_group("Benchmark Files" FILES ${benchmark_sources})
 
 string(TIMESTAMP PROJECT_BUILD_DATE "%Y%m%d")
 if(WIN32)

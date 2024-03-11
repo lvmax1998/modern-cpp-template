@@ -183,6 +183,7 @@ if(${PROJECT_NAME}_BUILD_HEADERS_ONLY)
     INTERFACE
     $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
   )
 else()
   target_include_directories(
@@ -190,6 +191,7 @@ else()
     PUBLIC
     $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
   )
@@ -199,6 +201,7 @@ else()
       PUBLIC
       $<INSTALL_INTERFACE:include>
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
       PRIVATE
       ${CMAKE_CURRENT_SOURCE_DIR}/src
     )
@@ -268,12 +271,6 @@ configure_file(
   @ONLY
 )
 
-target_include_directories(
-  ${PROJECT_NAME}
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-)
-
 install(
   FILES
   ${CMAKE_CURRENT_BINARY_DIR}/include/${PROJECT_NAME_LOWERCASE}/version.hpp
@@ -308,7 +305,7 @@ write_basic_package_version_file(
 )
 
 configure_package_config_file(
-  ${CMAKE_CURRENT_LIST_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
+  ${CMAKE_CURRENT_LIST_DIR}/cmake/ProjectConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
   INSTALL_DESTINATION
   ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
