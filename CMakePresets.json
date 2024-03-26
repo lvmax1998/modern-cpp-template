@@ -36,7 +36,8 @@
             "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "VCPKG_INSTALL_OPTIONS": "--x-abi-tools-use-exact-versions",
-                "VCPKG_DISABLE_COMPILER_TRACKING": "ON"
+                "VCPKG_DISABLE_COMPILER_TRACKING": "ON",
+                "X_VCPKG_APPLOCAL_DEPS_INSTALL": "ON"
             }
         },
         {

@@ -32,10 +32,10 @@ foreach(file ${benchmark_sources})
   target_link_libraries(${benchmark_name}_Benchmark PRIVATE ${${CMAKE_PROJECT_NAME}_Benchmark_LIB} benchmark::benchmark)
 
   if(BUILD_SHARED_LIBS AND WIN32)
-    add_custom_command(TARGET ${benchmark_name}_Tests POST_BUILD
+    add_custom_command(TARGET ${benchmark_name}_Benchmark POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy_if_different
           $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
-          $<TARGET_FILE_DIR:${benchmark_name}_Tests>
+          $<TARGET_FILE_DIR:${benchmark_name}_Benchmark>
     )
   endif()
 
